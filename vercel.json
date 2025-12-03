@@ -1,7 +1,19 @@
 {
-  "functions": {
-    "api/generar_pdf.py": {
-      "runtime": "python3.11"
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/*.py",
+      "use": "@vercel/python"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/generar_pdf.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "web/$1"
+    }
+  ]
 }

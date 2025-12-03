@@ -1,12 +1,19 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "api/*.py", "use": "@vercel/python" },
-    { "src": "public/**/*", "use": "@vercel/static" }
-  ],
+  "functions": {
+    "api/*.py": {
+      "runtime": "vercel-python@0.5.0"
+    }
+  },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/public/index.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/index.html"
+    }
   ]
 }
+
 

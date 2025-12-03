@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generar Catálogo Itaú</title>
+  <style>
+      body {
+          font-family: Arial;
+          max-width: 600px;
+          margin: 50px auto;
+          padding: 20px;
+      }
+  </style>
+</head>
+<body>
+
+<h2>Generar Catálogo QR Itaú</h2>
+
+<form id="excelForm">
+    <label>Subir archivo Excel (.xlsx)</label><br><br>
+    <input type="file" id="excelFile" accept=".xlsx" required><br><br>
+
+    <button type="submit">Generar PDF</button>
+</form>
+
+<p id="status"></p>
+
+<script>
+document.getElementById("excelForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const file = document.getElementById("excelFile").files[0];
+    if (!file) return;
+
+    document.getElementById("status").innerText = "Procesando... ⏳";
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("/api/generar_pdf", {
+        method: "POST",
+        body: formData
+    });
+
+    if (!response.ok) {
+        alert("Error generando PDF");
+        return;
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    // Descargar
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "catalogo_3x4.pdf";
+    a.click();
+
+    document.getElementById("status").innerText = "PDF generado correctamente ✔";
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/generar_pdf.py": {
+      "runtime": "python3.11"
+    }
+  }
+}
